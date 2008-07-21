@@ -155,7 +155,7 @@ foreach my $line (split("\n", $response)) {
     if ( $dep_time =~ /^(\d+)\:(\d+)$/ ) {
       @dep_time_ar = ( $1, $2 );
     }
-    $class = ( $class eq "" ) ? "stripe" : "";
+    unless ( $at_missed ) { $class = ( $class eq "" ) ? "stripe" : ""; }
     
     if ( ( $at_missed ) and ( ( $dep_time_ar[0] > $hour ) or ( ( $dep_time_ar[0] == $hour ) and ( $dep_time_ar[1] >= $min ) ) ) ) {
       $at_missed = 0;
