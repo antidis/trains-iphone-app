@@ -13,7 +13,7 @@ my $query = new CGI;
 my $from = $query->param('txtFromStation');
 my $to = $query->param('txtToStation');
 my @day_name = ("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-my @month_name = ("January", "February", "March", "April", "May", "Jun", "July", "August", "September", "October", "November", "December");
+my @month_name = ("", "January", "February", "March", "April", "May", "Jun", "July", "August", "September", "October", "November", "December");
 my @stations = ();
 my $date = $query->param('date');
 my $mday;
@@ -155,13 +155,14 @@ foreach my $line (split("\n", $response)) {
     if ( $dep_time =~ /^(\d+)\:(\d+)$/ ) {
       @dep_time_ar = ( $1, $2 );
     }
-    unless ( $at_missed ) { $class = ( $class eq "" ) ? "stripe" : ""; }
     
     if ( ( $at_missed ) and ( ( $dep_time_ar[0] > $hour ) or ( ( $dep_time_ar[0] == $hour ) and ( $dep_time_ar[1] >= $min ) ) ) ) {
       $at_missed = 0;
       print "</tbody>\n<tbody>\n";
       if ( $count > 0 ) { $has_missed = 1; }
     }
+    
+    unless ( $at_missed ) { $class = ( $class eq "" ) ? "stripe" : ""; }
     
     print "          <tr class=\"" . $class ."\"><td>" . $dep_time . "</td><td>" . $arr_time  . "</td>";
     
@@ -216,6 +217,8 @@ print<<HTML;
     </div>
     
     <a href="save.cgi?txtFromStation=$from&amp;txtToStation=$to&amp;date=$date" class="newbox">Save this search...</a>
+
+    <a href="$url" class="newbox">Perform this search at Irish Rail</a>
 
 HTML
 
