@@ -48,7 +48,11 @@ if ( $date =~ /(\d\d)(\d\d)(\d\d\d\d)/ ) {
 
 my $url = "http://irishrail.ie/your_journey/timetables_junction1.asp?txtFromStation=" . uri_escape($query->param('txtFromStation')) . "&txtToStation=" . uri_escape($query->param('txtToStation')) . "&OutSelectDate=" . $mday . "-" . $mon . "-"  . $year . "&timeband=00,24&ReturnSelectDate=&NumPass=01&returnrequired=0&RadioOutDirect=all&RadioRtnDirect=&RadioOutStatus=D&RadioRtnStatus=&OutFromTime=00&OutToTime=24&RtnFromTime=00&RtnToTime=24&RadioReserve=&OutSelectDay=" . $mday . "&outSelectMonth=" . $mon . "&RtnSelectDay=&RtnSelectMonth=&hidOutDate=&hidRtnDate=&RadioRetReqd=&direction=&radioservice=1&radioservice1=1&optionWalk=yes&optionBus=yes";
 
-my $response = get $url;
+my $proxied_url = "http://minds.nuim.ie/~breach/nph-proxy.cgi/000010A/http/irishrail.ie/your_journey/timetables_junction1.asp=3ftxtFromStation=3d" . uri_escape($query->param('txtFromStation')) . "=26txtToStation=3d" . uri_escape($query->param('txtToStation')) . "=26OutSelectDate=3d" . $mday . "-" . $mon . "-"  . $year . "=26timeband=3d00,24=26ReturnSelectDate=3d=26NumPass=3d01=26returnrequired=3d0=26RadioOutDirect=3dall=26RadioRtnDirect=3d=26RadioOutStatus=3dD=26RadioRtnStatus=3d=26OutFromTime=3d00=26OutToTime=3d24=26RtnFromTime=3d00=26RtnToTime=3d24=26RadioReserve=3d=26OutSelectDay=3d" . $mday . "=26outSelectMonth=3d" . $mon . "=26RtnSelectDay=3d=26RtnSelectMonth=3d=26hidOutDate=3d=26hidRtnDate=3d=26RadioRetReqd=3d=26direction=3d=26radioservice=3d1=26radioservice1=3d1=26optionWalk=3dyes=26optionBus=3dyes";
+
+$proxied_url =~ s/\%20/\=2520/g;
+
+my $response = get $proxied_url;
 
 print $query->header();
 
